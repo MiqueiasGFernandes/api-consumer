@@ -1,0 +1,14 @@
+version: '3.1'
+services:
+  database:
+    image: mongo
+    env_file:
+      - ./config/docker/.env.docker
+  database-admin-web:
+    image: mongo-express
+    volumes:
+      - ./data:/data/db
+    ports:
+      - 8081:8081
+    env_file:
+      - ./config/docker/.env.docker

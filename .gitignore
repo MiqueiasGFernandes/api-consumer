@@ -4,3 +4,4 @@ coverage
 .env
 .husky/_/husky.sh
 dist
+.env.docker
