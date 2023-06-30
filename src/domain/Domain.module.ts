@@ -1,7 +1,8 @@
-import { Module } from "@nestjs/common";
+import { Global, Module } from "@nestjs/common";
 import { SYNCHRONIZATION_USE_CASE } from "./use-cases";
 import { RemoteSynchronizeUsersService } from "./services/RemoteSynchronizeUsers.service";
 
+@Global()
 @Module({
   providers: [
     {

@@ -4,5 +4,4 @@ export class ExternalUserModel {
   email: string;
   firstName: string;
   lastName: string;
-  createdAt: Date;
 }

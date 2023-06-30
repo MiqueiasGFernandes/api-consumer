@@ -86,7 +86,6 @@ describe("RemoteSynchronizeUserService", () => {
             email: faker.internet.email(),
             firstName: faker.person.firstName(),
             lastName: faker.person.lastName(),
-            createdAt: faker.date.anytime(),
           },
           {
             id: faker.number.int(),
@@ -94,7 +93,6 @@ describe("RemoteSynchronizeUserService", () => {
             email: faker.internet.email(),
             firstName: faker.person.firstName(),
             lastName: faker.person.lastName(),
-            createdAt: faker.date.anytime(),
           },
         ];
 
