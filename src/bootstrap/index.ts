@@ -1,1 +1,1 @@
-export * from "./bootstrap.module";
+export * from "./Bootstrap.module";
