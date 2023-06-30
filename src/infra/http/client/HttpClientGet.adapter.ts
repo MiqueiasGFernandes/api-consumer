@@ -1,3 +1,5 @@
+import { LinkApiXmlResponseDto } from "@infra/api/repositories/dtos/LinkApiPaginatedUserItems.dto";
+import { LinkApiResponseDto } from "@infra/api/repositories/dtos/LinkApiResponse.dto";
 import { AuthenticationHeaderUtil } from "@infra/api/repositories/utils/AuthenticationHeader.uti";
 import { HttpService } from "@nestjs/axios";
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
@@ -14,19 +16,19 @@ export class HttpClientGetAdapter {
     private readonly authenticationHeaderUtil: AuthenticationHeaderUtil
   ) {}
 
-  async get<T, P, R>(
+  async get<T>(
     path: string,
     options?: {
       xmlFieldName?: "text";
     }
-  ): Promise<R> {
+  ): Promise<T> {
     const url = this.configService.getOrThrow("LINK_API_URL");
 
     const headers = this.authenticationHeaderUtil.get();
 
     const { data } = await lastValueFrom(
       this.httpService
-        .get<T>(`${url}${path}`, {
+        .get<LinkApiResponseDto>(`${url}${path}`, {
           headers,
         })
         .pipe(map((data) => data))
@@ -36,7 +38,7 @@ export class HttpClientGetAdapter {
       });
     });
 
-    const responseFromXmlToJson: P = xmlParser.toJson(
+    const responseFromXmlToJson: LinkApiXmlResponseDto<T> = xmlParser.toJson(
       data[options.xmlFieldName],
       {
         object: true,
@@ -50,6 +52,6 @@ export class HttpClientGetAdapter {
       );
     });
 
-    return responseFromXmlToJson as unknown as R;
+    return responseFromXmlToJson as T;
   }
 }

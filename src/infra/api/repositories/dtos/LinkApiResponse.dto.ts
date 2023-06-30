@@ -1,6 +1,6 @@
 import { ObjectLiteral } from "typeorm";
 
-export class LinkApiListResponseDto {
+export class LinkApiResponseDto {
   error: ObjectLiteral;
   text: string;
 }
