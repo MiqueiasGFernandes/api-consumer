@@ -15,12 +15,14 @@ import {
   EXTERNAL_USER_REPOSITORY,
   INTERNAL_USER_REPOSITORY,
 } from "@domain/repositories";
+import { AuthenticationHeaderUtil } from "./api/repositories/utils/AuthenticationHeader.uti";
+import { InternalUserEntity } from "./database/entities";
 
 @Global()
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: __dirname + "/../../config/app",
+      envFilePath: __dirname + "/../../config/app/.env",
     }),
     HttpModule,
     TypeOrmModule.forRoot({
@@ -31,7 +33,7 @@ import {
       type: "mongodb",
       entities: [__dirname + "/database/entities/*.entity.{ts|js}"],
     }),
-    TypeOrmModule.forFeature([TypeOrmInternalUserRepository]),
+    TypeOrmModule.forFeature([InternalUserEntity]),
   ],
   providers: [
     {
@@ -51,6 +53,13 @@ import {
       useClass: TypeOrmInternalUserRepository,
     },
     HttpClientGetAdapter,
+    AuthenticationHeaderUtil,
+  ],
+  exports: [
+    EXTERNAL_USER_REPOSITORY,
+    EXTERNAL_USER_ADDRESS_REPOSITORY,
+    EXTERNAL_USER_CONTACT_REPOSITORY,
+    INTERNAL_USER_REPOSITORY,
   ],
 })
 export class InfraModule {}

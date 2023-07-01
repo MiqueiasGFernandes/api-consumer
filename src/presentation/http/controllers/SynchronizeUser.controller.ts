@@ -1,11 +1,17 @@
-import { Controller, HttpCode, Post } from "@nestjs/common";
-import { HttpResponse } from "../types/HttpResponse.type";
-import { ISynchronizeUsersUseCase } from "@domain/use-cases";
+import {
+  ISynchronizeUsersUseCase,
+  SYNCHRONIZATION_USE_CASE,
+} from "@domain/use-cases";
+import { Controller, HttpCode, Inject, Post } from "@nestjs/common";
 import { InternalUserDetailDto } from "@presentation/dto/InternalUserDetail.dto";
+import { HttpResponse } from "../types/HttpResponse.type";
 
 @Controller("synchronize")
 export class SynchronizeUserController {
-  constructor(private readonly synchronizeUseCase: ISynchronizeUsersUseCase) {}
+  constructor(
+    @Inject(SYNCHRONIZATION_USE_CASE)
+    private readonly synchronizeUseCase: ISynchronizeUsersUseCase
+  ) {}
 
   @Post()
   @HttpCode(201)
