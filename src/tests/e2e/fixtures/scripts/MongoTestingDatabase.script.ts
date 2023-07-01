@@ -11,7 +11,7 @@ export class MongoTestingDatabaseAdapter implements ITestingDatabasePort {
 
     if (!MongoTestingDatabaseAdapter.isInited) {
       CommanderUtil.execute(
-        `docker run --name test-mongo -e MONGO_INITDB_DATABASE=${database} MONGO_INITDB_ROOT_USERNAME=${username} MONGO_INITDB_ROOT_PASSWORD=${password} -d mongo`
+        `docker run --name test-mongo -e MONGO_INITDB_DATABASE=${database} -e MONGO_INITDB_ROOT_USERNAME=${username} -e MONGO_INITDB_ROOT_PASSWORD=${password} -d mongo`
       );
 
       MongoTestingDatabaseAdapter.isInited = true;
