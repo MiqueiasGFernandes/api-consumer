@@ -12,7 +12,7 @@ describe("Synchronization", () => {
   beforeAll(async () => {
     database = TestingDatabaseFactory.makeTestingDatabase();
 
-    database.initDatabase();
+    await database.initDatabase();
 
     const testingModule = await Test.createTestingModule({
       imports: [BootstrapModule],
@@ -22,7 +22,7 @@ describe("Synchronization", () => {
     await app.init();
   });
   afterAll(async () => {
-    database.closeDatabase();
+    await database.closeDatabase();
     await app.close();
   });
   test("[POST] /synchronize", async () => {
