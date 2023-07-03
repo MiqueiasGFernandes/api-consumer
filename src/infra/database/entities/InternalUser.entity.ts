@@ -1,6 +1,6 @@
 import { Column, Entity, ObjectIdColumn } from "typeorm";
 
-@Entity("users")
+@Entity("internal_users")
 export class InternalUserEntity {
   @ObjectIdColumn()
   id: string;
