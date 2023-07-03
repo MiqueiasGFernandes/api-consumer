@@ -22,7 +22,7 @@ import { HttpClientGetAdapter } from "./http/client/HttpClientGet.adapter";
   imports: [
     HttpModule,
     ConfigModule.forRoot({
-      envFilePath: __dirname + "/../../config/app/.env",
+      envFilePath: __dirname + "/../../.env",
     }),
     TypeOrmModule.forRoot({
       database: process.env.DATABASE_NAME,
