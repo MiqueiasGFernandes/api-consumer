@@ -1,12 +1,11 @@
 import { LinkApiXmlResponseDto } from "@infra/api/repositories/dtos/LinkApiPaginatedUserItems.dto";
-import { LinkApiResponseDto } from "@infra/api/repositories/dtos/LinkApiResponse.dto";
 import { AuthenticationHeaderUtil } from "@infra/api/repositories/utils/AuthenticationHeader.uti";
 import { HttpService } from "@nestjs/axios";
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { validate } from "class-validator";
 import { lastValueFrom, map } from "rxjs";
-import xmlParser from "xml2json";
+import * as xmlParser from "xml2json";
 
 @Injectable()
 export class HttpClientGetAdapter {
@@ -28,7 +27,7 @@ export class HttpClientGetAdapter {
 
     const { data } = await lastValueFrom(
       this.httpService
-        .get<LinkApiResponseDto>(`${url}${path}`, {
+        .get(`${url}${path}`, {
           headers,
         })
         .pipe(map((data) => data))
@@ -39,7 +38,7 @@ export class HttpClientGetAdapter {
     });
 
     const responseFromXmlToJson: LinkApiXmlResponseDto<T> = xmlParser.toJson(
-      data[options.xmlFieldName],
+      data,
       {
         object: true,
       }
@@ -52,6 +51,6 @@ export class HttpClientGetAdapter {
       );
     });
 
-    return responseFromXmlToJson as T;
+    return responseFromXmlToJson.data as T;
   }
 }

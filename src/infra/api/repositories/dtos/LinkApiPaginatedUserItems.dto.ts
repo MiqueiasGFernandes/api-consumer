@@ -32,7 +32,9 @@ export class LinkApiExternalUserDto {
 export class LinkApiListUsersDataDto {
   @IsNotEmpty()
   @IsObject()
-  usersList: LinkApiExternalUserDto[];
+  usersList: {
+    item: LinkApiExternalUserDto[];
+  };
 }
 
 export class LinkApiXmlResponseDto<T> {
