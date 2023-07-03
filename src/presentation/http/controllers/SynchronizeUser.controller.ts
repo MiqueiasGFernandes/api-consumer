@@ -2,19 +2,18 @@ import {
   ISynchronizeUsersUseCase,
   SYNCHRONIZATION_USE_CASE,
 } from "@domain/use-cases";
-import { Controller, HttpCode, Inject, Post } from "@nestjs/common";
+import { Controller, Inject, Post } from "@nestjs/common";
 import { InternalUserDetailDto } from "@presentation/dto/InternalUserDetail.dto";
 import { HttpResponse } from "../types/HttpResponse.type";
 
-@Controller("synchronize")
+@Controller()
 export class SynchronizeUserController {
   constructor(
     @Inject(SYNCHRONIZATION_USE_CASE)
     private readonly synchronizeUseCase: ISynchronizeUsersUseCase
   ) {}
 
-  @Post()
-  @HttpCode(201)
+  @Post("/synchronize")
   async synchronize(): Promise<HttpResponse<InternalUserDetailDto[]>> {
     const newUsers = await this.synchronizeUseCase.synchronize();
 
