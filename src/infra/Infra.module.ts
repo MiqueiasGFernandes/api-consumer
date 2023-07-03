@@ -1,5 +1,11 @@
+import {
+  EXTERNAL_USER_ADDRESS_REPOSITORY,
+  EXTERNAL_USER_CONTACT_REPOSITORY,
+  EXTERNAL_USER_REPOSITORY,
+  INTERNAL_USER_REPOSITORY,
+} from "@domain/repositories";
 import { HttpModule } from "@nestjs/axios";
-import { Global, Module } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import {
@@ -7,24 +13,17 @@ import {
   LinkApiExternalUserContactRepository,
   LinkApiExternalUserRepository,
 } from "./api/repositories";
-import { TypeOrmInternalUserRepository } from "./database/repositories";
-import { HttpClientGetAdapter } from "./http/client/HttpClientGet.adapter";
-import {
-  EXTERNAL_USER_ADDRESS_REPOSITORY,
-  EXTERNAL_USER_CONTACT_REPOSITORY,
-  EXTERNAL_USER_REPOSITORY,
-  INTERNAL_USER_REPOSITORY,
-} from "@domain/repositories";
 import { AuthenticationHeaderUtil } from "./api/repositories/utils/AuthenticationHeader.uti";
 import { InternalUserEntity } from "./database/entities";
+import { TypeOrmInternalUserRepository } from "./database/repositories";
+import { HttpClientGetAdapter } from "./http/client/HttpClientGet.adapter";
 
-@Global()
 @Module({
   imports: [
+    HttpModule,
     ConfigModule.forRoot({
       envFilePath: __dirname + "/../../config/app/.env",
     }),
-    HttpModule,
     TypeOrmModule.forRoot({
       database: process.env.DATABASE_NAME,
       host: process.env.DATABASE_HOST,
@@ -32,6 +31,14 @@ import { InternalUserEntity } from "./database/entities";
       password: process.env.DATABASE_PASSWORD,
       type: "mongodb",
       entities: [__dirname + "/database/entities/*.entity.{ts|js}"],
+      useNewUrlParser: true,
+      synchronize: false,
+      logging: true,
+      useUnifiedTopology: true,
+      extra: {
+        authSource: "admin",
+        ssl: false,
+      },
     }),
     TypeOrmModule.forFeature([InternalUserEntity]),
   ],
