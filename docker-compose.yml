@@ -14,3 +14,8 @@ services:
       - 8081:8081
     env_file:
       - ./.env.docker
+  messagering:
+    image: rabbitmq:3-management
+    ports:
+      - 8000:15672
+      - 5672:5672
