@@ -15,12 +15,7 @@ export class HttpClientGetAdapter {
     private readonly authenticationHeaderUtil: AuthenticationHeaderUtil
   ) {}
 
-  async get<T>(
-    path: string,
-    options?: {
-      xmlFieldName?: "text";
-    }
-  ): Promise<T> {
+  async get<T>(path: string): Promise<T> {
     const url = this.configService.getOrThrow("LINK_API_URL");
 
     const headers = this.authenticationHeaderUtil.get();
