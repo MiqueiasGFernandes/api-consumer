@@ -2,6 +2,7 @@ import {
   Inject,
   Injectable,
   InternalServerErrorException,
+  Logger,
 } from "@nestjs/common";
 import { InternalUserModel } from "../models";
 import {
@@ -18,6 +19,8 @@ import { ISynchronizeUsersUseCase } from "../use-cases";
 
 @Injectable()
 export class RemoteSynchronizeUsersService implements ISynchronizeUsersUseCase {
+  private readonly logger = new Logger(RemoteSynchronizeUsersService.name);
+
   constructor(
     @Inject(EXTERNAL_USER_REPOSITORY)
     private readonly externalUserRepository: IExternalUserRepository,
@@ -55,8 +58,10 @@ export class RemoteSynchronizeUsersService implements ISynchronizeUsersUseCase {
       }
     );
 
-    await Promise.all(internalUserCreationSubprocesses).catch(() => {
-      throw new InternalServerErrorException();
+    await Promise.all(internalUserCreationSubprocesses).catch((error) => {
+      this.logger.error(error);
+
+      throw new InternalServerErrorException(error);
     });
 
     const internalUsers = await this.internalUserRepository.find();
