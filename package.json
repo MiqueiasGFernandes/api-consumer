@@ -19,8 +19,7 @@
     "test": "jest --passWithNoTests --no-cache",
     "test:watch": "npm run test -- --watch ",
     "test:cov": "npm run test -- --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./jest-e2e.json"
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.0",
