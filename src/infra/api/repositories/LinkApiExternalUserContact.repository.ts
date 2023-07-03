@@ -3,6 +3,7 @@ import { IExternalUserContactRepository } from "@domain/repositories";
 import { HttpClientGetAdapter } from "@infra/http/client/HttpClientGet.adapter";
 import { Injectable } from "@nestjs/common";
 import { LinkApiContactDto } from "./dtos/LinkApiContact.dto";
+import { LinkApiItemResponse } from "./dtos/LinkApiPaginatedUserItems.dto";
 
 @Injectable()
 export class LinkApiExternalUserContactRepository
@@ -10,9 +11,13 @@ export class LinkApiExternalUserContactRepository
 {
   constructor(private readonly httpClientGetAdapter: HttpClientGetAdapter) {}
 
-  findBy(options: { userId: number }): Promise<ExternalUserContactModel[]> {
-    return this.httpClientGetAdapter.get<LinkApiContactDto[]>(
-      `/users/${options.userId}/contacts`
-    );
+  async findOneBy(options: {
+    userId: number;
+  }): Promise<ExternalUserContactModel> {
+    return (
+      await this.httpClientGetAdapter.get<
+        LinkApiItemResponse<LinkApiContactDto>
+      >(`/users/${options.userId}/contacts`)
+    ).item;
   }
 }

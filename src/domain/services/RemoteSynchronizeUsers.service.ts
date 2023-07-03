@@ -42,7 +42,7 @@ export class RemoteSynchronizeUsersService implements ISynchronizeUsersUseCase {
             userId: externalUser.id,
           });
         const externaUserContacts =
-          await this.externalUserContactRepository.findBy({
+          await this.externalUserContactRepository.findOneBy({
             userId: externalUser.id,
           });
 
@@ -52,14 +52,14 @@ export class RemoteSynchronizeUsersService implements ISynchronizeUsersUseCase {
         internalUser.email = externalUser.email;
         internalUser.address = externalUserAddresses[0].street;
         internalUser.addressNumber = externalUserAddresses[0].number;
-        internalUser.phoneNumber = externaUserContacts[0].phoneNumber;
+        internalUser.phoneNumber = externaUserContacts.phoneNumber;
 
         return this.internalUserRepository.save(internalUser);
       }
     );
 
     await Promise.all(internalUserCreationSubprocesses).catch((error) => {
-      this.logger.error(error);
+      this.logger.error(error, error.stack);
 
       throw new InternalServerErrorException(error);
     });

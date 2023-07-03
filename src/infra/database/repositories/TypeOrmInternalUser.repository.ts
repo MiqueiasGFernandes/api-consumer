@@ -15,6 +15,12 @@ export class TypeOrmInternalUserRepository implements IInternalUserRepository {
     return this.usersDataMapper.find();
   }
   async save(internaUser: InternalUserModel): Promise<InternalUserModel> {
-    return this.usersDataMapper.save(internaUser);
+    return this.usersDataMapper.save({
+      fullName: internaUser.fullName,
+      email: internaUser.email,
+      address: internaUser.address,
+      addressNumber: internaUser.addressNumber,
+      phoneNumber: internaUser.phoneNumber,
+    });
   }
 }

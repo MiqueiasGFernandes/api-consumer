@@ -44,7 +44,7 @@ describe("RemoteSynchronizeUserService", () => {
         {
           provide: EXTERNAL_USER_CONTACT_REPOSITORY,
           useFactory: (): MockType<IExternalUserContactRepository> => ({
-            findBy: jest.fn((data) => data),
+            findOneBy: jest.fn((data) => data),
           }),
         },
         {
@@ -119,22 +119,13 @@ describe("RemoteSynchronizeUserService", () => {
           },
         ];
 
-        const externalUserContactsMockData: ExternalUserContactModel[] = [
-          {
-            id: faker.number.int(),
-            email: faker.internet.email(),
-            name: faker.person.firstName(),
-            phoneNumber: faker.phone.number(),
-            userId: faker.number.int(),
-          },
-          {
-            id: faker.number.int(),
-            email: faker.internet.email(),
-            name: faker.person.firstName(),
-            phoneNumber: faker.phone.number(),
-            userId: faker.number.int(),
-          },
-        ];
+        const externalUserContactsMockData: ExternalUserContactModel = {
+          id: faker.number.int(),
+          email: faker.internet.email(),
+          name: faker.person.firstName(),
+          phoneNumber: faker.phone.number(),
+          userId: faker.number.int(),
+        };
 
         externalUserRepositoryMock.find.mockResolvedValue(
           externalUsersMockData
@@ -143,10 +134,12 @@ describe("RemoteSynchronizeUserService", () => {
           ...externalUserAddressMockData,
           userId: user.id,
         }));
-        externalUserContactRepositoryMock.findBy.mockImplementation((user) => ({
-          ...externalUserContactsMockData,
-          userId: user.id,
-        }));
+        externalUserContactRepositoryMock.findOneBy.mockImplementation(
+          (user) => ({
+            ...externalUserContactsMockData,
+            userId: user.id,
+          })
+        );
         internalUserRepositoryMock.save.mockImplementation((user) => {
           const record = {
             id: faker.string.uuid(),
@@ -176,7 +169,7 @@ describe("RemoteSynchronizeUserService", () => {
         );
         expect(sut[0]).toHaveProperty(
           "phoneNumber",
-          externalUserContactsMockData[0].phoneNumber
+          externalUserContactsMockData.phoneNumber
         );
         expect(sut[1]).toHaveProperty("id");
         expect(sut[1]).toHaveProperty(
@@ -194,7 +187,7 @@ describe("RemoteSynchronizeUserService", () => {
         );
         expect(sut[0]).toHaveProperty(
           "phoneNumber",
-          externalUserContactsMockData[0].phoneNumber
+          externalUserContactsMockData.phoneNumber
         );
         expect(externalUserRepositoryMock.find).toHaveBeenCalled();
         expect(internalUserRepositoryMock.save).toHaveBeenCalledTimes(2);
@@ -248,10 +241,12 @@ describe("RemoteSynchronizeUserService", () => {
           externalUserAddressMockData
         );
         externalUserAddressRepositoryMock.findBy.mockRejectedValue({});
-        externalUserContactRepositoryMock.findBy.mockImplementation((user) => ({
-          ...externalUserContactsMockData,
-          userId: user.id,
-        }));
+        externalUserContactRepositoryMock.findOneBy.mockImplementation(
+          (user) => ({
+            ...externalUserContactsMockData,
+            userId: user.id,
+          })
+        );
         internalUserRepositoryMock.save.mockImplementation((user) => {
           const record = {
             id: faker.string.uuid(),

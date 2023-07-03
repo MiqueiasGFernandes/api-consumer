@@ -29,14 +29,15 @@ export class LinkApiExternalUserDto {
   lastName: string;
 }
 
+export class LinkApiItemResponse<T> {
+  item: T;
+}
+
 export class LinkApiListUsersDataDto {
   @IsNotEmpty()
   @IsObject()
-  usersList: {
-    item: LinkApiExternalUserDto[];
-  };
+  usersList: LinkApiItemResponse<LinkApiExternalUserDto[]>;
 }
-
 export class LinkApiXmlResponseDto<T> {
   @IsObject()
   @IsNotEmpty()
