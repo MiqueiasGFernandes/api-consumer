@@ -18,6 +18,10 @@ export class LinkApiExternalUserAddressRepository
       await this.httpClientGetAdapter.get<
         LinkApiItemResponse<LinkApiAddressDto[]>
       >(`/users/${options.userId}/address`)
-    ).item;
+    ).item.map((item) => {
+      item.number = item.number["$t"];
+
+      return item;
+    });
   }
 }
