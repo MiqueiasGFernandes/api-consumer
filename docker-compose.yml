@@ -3,7 +3,9 @@ services:
   database:
     image: mongo
     env_file:
-      - ./config/docker/.env.docker
+    - ./config/docker/.env.docker
+    ports:
+      - 27017:27017
   database-admin-web:
     image: mongo-express
     volumes:
