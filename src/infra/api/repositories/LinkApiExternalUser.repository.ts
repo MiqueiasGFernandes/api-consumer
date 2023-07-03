@@ -10,7 +10,9 @@ export class LinkApiExternalUserRepository implements IExternalUserRepository {
 
   async find(): Promise<ExternalUserModel[]> {
     return (
-      await this.httpClientGetAdapter.get<LinkApiListUsersDataDto>("/users")
+      await this.httpClientGetAdapter.get<LinkApiListUsersDataDto>(
+        "/users/?limit=10"
+      )
     ).usersList.item;
   }
 }
