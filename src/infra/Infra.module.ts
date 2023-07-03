@@ -30,9 +30,9 @@ import { HttpClientGetAdapter } from "./http/client/HttpClientGet.adapter";
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       type: "mongodb",
-      entities: [__dirname + "/database/entities/*.entity.{ts|js}"],
+      entities: [__dirname + "/database/entities/*.entity.{ts,js}"],
       useNewUrlParser: true,
-      synchronize: false,
+      synchronize: true,
       logging: true,
       useUnifiedTopology: true,
       extra: {
