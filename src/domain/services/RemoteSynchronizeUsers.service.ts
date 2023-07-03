@@ -50,7 +50,7 @@ export class RemoteSynchronizeUsersService implements ISynchronizeUsersUseCase {
 
         internalUser.fullName = `${externalUser.firstName} ${externalUser.lastName}`;
         internalUser.email = externalUser.email;
-        internalUser.address = externalUserAddresses[0].street;
+        internalUser.address = `Rua ${externalUserAddresses[0].street}`;
         internalUser.addressNumber = externalUserAddresses[0].number;
         internalUser.phoneNumber = externaUserContacts.phoneNumber;
 

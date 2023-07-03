@@ -161,7 +161,7 @@ describe("RemoteSynchronizeUserService", () => {
         expect(sut[0]).toHaveProperty("email", externalUsersMockData[0].email);
         expect(sut[0]).toHaveProperty(
           "address",
-          externalUserAddressMockData[0].street
+          `Rua ${externalUserAddressMockData[0].street}`
         );
         expect(sut[0]).toHaveProperty(
           "addressNumber",
@@ -179,7 +179,7 @@ describe("RemoteSynchronizeUserService", () => {
         expect(sut[0]).toHaveProperty("email", externalUsersMockData[0].email);
         expect(sut[0]).toHaveProperty(
           "address",
-          externalUserAddressMockData[0].street
+          `Rua ${externalUserAddressMockData[0].street}`
         );
         expect(sut[1]).toHaveProperty(
           "addressNumber",
