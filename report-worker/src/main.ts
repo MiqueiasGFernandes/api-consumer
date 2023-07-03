@@ -8,12 +8,13 @@ async function bootstrap() {
     {
       transport: Transport.RMQ,
       options: {
-        noAck: false,
         urls: [process.env.RABBIT_URI],
         queue: process.env.RABBIT_QUEUE,
         queueOptions: {
           durable: true,
         },
+        noAck: false,
+        prefetchCount: 1,
       },
     },
   );
