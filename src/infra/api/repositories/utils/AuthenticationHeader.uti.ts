@@ -3,7 +3,7 @@ import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class AuthenticationHeaderUtil {
-  private readonly configService: ConfigService;
+  constructor(private readonly configService: ConfigService) {}
 
   get(): { Authorization: string } {
     const username = this.configService.getOrThrow("LINK_API_USERNAME");

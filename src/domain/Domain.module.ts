@@ -1,9 +1,8 @@
-import { Global, Module } from "@nestjs/common";
-import { SYNCHRONIZATION_USE_CASE } from "./use-cases";
-import { RemoteSynchronizeUsersService } from "./services/RemoteSynchronizeUsers.service";
 import { InfraModule } from "@infra/Infra.module";
+import { Module } from "@nestjs/common";
+import { RemoteSynchronizeUsersService } from "./services/RemoteSynchronizeUsers.service";
+import { SYNCHRONIZATION_USE_CASE } from "./use-cases";
 
-@Global()
 @Module({
   imports: [InfraModule],
   providers: [
