@@ -12,12 +12,15 @@ export class RemoteAddFolderService implements IAddFolderUseCase {
   ) {}
 
   async add(folder: FolderModel): Promise<FolderModel> {
-    const folderExists = !!(await this.folderRepository.findOneBy({
+    const folderFromDatabase = await this.folderRepository.findOneBy({
       name: folder.name,
       parentFolder: folder.parentFolder,
-    }));
+    });
 
-    if (folderExists) {
+    if (
+      folderFromDatabase &&
+      folderFromDatabase.parentFolder === folder.parentFolder
+    ) {
       throw new ItemAlreadyExistsException(
         `Folder with name ${folder.name} already exists in the target`,
       );

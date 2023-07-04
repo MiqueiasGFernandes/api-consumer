@@ -11,7 +11,7 @@ export class GoFileApiUploadFileAdapter {
     private readonly configService: ConfigService,
   ) {}
 
-  async upload(file: FileModel): Promise<void> {
+  async upload(file: FileModel): Promise<any> {
     const token = this.configService.getOrThrow('GO_FILE_API_TOKEN');
 
     const { server: serverData } = (
@@ -32,14 +32,18 @@ export class GoFileApiUploadFileAdapter {
     form.append('file', file.content, { filename: file.name });
     form.append('folderId', file.targetFolder);
 
-    await lastValueFrom(
-      this.httpService
-        .post(`https://${serverData}.gofile.io/uploadFile`, form)
-        .pipe(map((data) => data)),
-    ).catch((error) => {
-      throw new InternalServerErrorException(error.message, {
-        cause: error,
-      });
-    });
+    const response = (
+      await lastValueFrom(
+        this.httpService
+          .post(`https://${serverData}.gofile.io/uploadFile`, form)
+          .pipe(map((data) => data)),
+      ).catch((error) => {
+        throw new InternalServerErrorException(error.message, {
+          cause: error,
+        });
+      })
+    ).data.data;
+
+    return response;
   }
 }

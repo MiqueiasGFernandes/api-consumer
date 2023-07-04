@@ -13,4 +13,7 @@ export class FileEntity {
 
   @Column()
   folderId: string;
+
+  @Column()
+  e2eId: string;
 }

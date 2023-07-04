@@ -1,11 +1,16 @@
-import { FILE_REPOSITORY } from '@domain/repositories';
+import { FILE_REPOSITORY, FOLDER_REPOSITORY } from '@domain/repositories';
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { GoFileApiUploadFileAdapter } from './api';
+import {
+  GoFileApiCreateFolderAdapter,
+  GoFileApiExcludeAdapter,
+  GoFileApiUploadFileAdapter,
+} from './api';
 import { FileGoFileAndTypeOrmRepository } from './repositories/FileGoFileAndTypeOrm.repository';
 import { FileEntity, FolderEntity } from './database/entities';
+import { FolderGoFileAndTypeOrmRepository } from './repositories/FolderGoFileAndTypeOrm.repository';
 
 @Module({
   imports: [
@@ -36,8 +41,14 @@ import { FileEntity, FolderEntity } from './database/entities';
       provide: FILE_REPOSITORY,
       useClass: FileGoFileAndTypeOrmRepository,
     },
+    {
+      provide: FOLDER_REPOSITORY,
+      useClass: FolderGoFileAndTypeOrmRepository,
+    },
     GoFileApiUploadFileAdapter,
+    GoFileApiCreateFolderAdapter,
+    GoFileApiExcludeAdapter,
   ],
-  exports: [FILE_REPOSITORY],
+  exports: [FILE_REPOSITORY, FOLDER_REPOSITORY],
 })
 export class InfraModule {}
