@@ -1,5 +1,22 @@
 version: '3.1'
 services:
+  api_synchronizer:
+    build: ./api-consumer/
+    ports:
+      - 3000:3000
+    depends_on:
+      - report_worker
+      - database
+    networks:
+      - app_network
+  report_worker:
+    build: ./report-worker/
+    ports:
+      - 3001:3001
+    networks:
+      - app_network
+    depends_on:
+      - messagering
   database:
     image: mongo
     env_file:
@@ -19,3 +36,8 @@ services:
     ports:
       - 8000:15672
       - 5672:5672
+    networks:
+      - app_network
+networks:
+  app_network:
+
