@@ -7,6 +7,8 @@ import {
   IExternalUserRepository,
   IInternalUserRepository,
   INTERNAL_USER_REPOSITORY,
+  IUserReportRepository,
+  USER_REPORT_REPOSITORY,
 } from "@domain/repositories";
 import { Test } from "@nestjs/testing";
 import { MockType } from "@tests/fixtures";
@@ -25,6 +27,7 @@ describe("RemoteSynchronizeUserService", () => {
   let externalUserAddressRepositoryMock: MockType<IExternalUserAddresRepository>;
   let externalUserContactRepositoryMock: MockType<IExternalUserContactRepository>;
   let internalUserRepositoryMock: MockType<IInternalUserRepository>;
+  let userReportRepositoryMock: MockType<IUserReportRepository>;
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       providers: [
@@ -54,6 +57,12 @@ describe("RemoteSynchronizeUserService", () => {
             save: jest.fn((data) => data),
           }),
         },
+        {
+          provide: USER_REPORT_REPOSITORY,
+          useFactory: (): MockType<IUserReportRepository> => ({
+            save: jest.fn((data) => data),
+          }),
+        },
       ],
     }).compile();
 
@@ -69,6 +78,7 @@ describe("RemoteSynchronizeUserService", () => {
     internalUserRepositoryMock = await testingModule.get(
       INTERNAL_USER_REPOSITORY
     );
+    userReportRepositoryMock = await testingModule.get(USER_REPORT_REPOSITORY);
     service = await testingModule.resolve(RemoteSynchronizeUsersService);
   });
   afterEach(() => {
@@ -151,6 +161,7 @@ describe("RemoteSynchronizeUserService", () => {
         internalUserRepositoryMock.find.mockResolvedValue(
           internalUsersFindMockData
         );
+        userReportRepositoryMock.save.mockResolvedValue({});
 
         const sut = await service.synchronize();
         expect(sut[0]).toHaveProperty("id");
