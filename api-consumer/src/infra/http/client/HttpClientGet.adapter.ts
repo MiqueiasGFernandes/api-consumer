@@ -27,8 +27,8 @@ export class HttpClientGetAdapter {
         })
         .pipe(map((data) => data))
     ).catch((error) => {
-      throw new InternalServerErrorException(error.response.data, {
-        cause: error.response.data,
+      throw new InternalServerErrorException(error.message, {
+        cause: error.message,
       });
     });
 

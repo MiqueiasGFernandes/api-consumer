@@ -18,7 +18,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
       data: {},
       error: {
         type: exception.name,
-        message: exception.message,
+        message:
+          exception.name === "InternalServerErrorException"
+            ? "Internal Server Error"
+            : exception.message,
       },
     });
   }
