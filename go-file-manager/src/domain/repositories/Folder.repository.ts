@@ -6,6 +6,7 @@ export interface IFolderRepository {
     name: string;
     parentFolder: string;
   }): Promise<FolderModel>;
+  findOneBy(where: { name: string }): Promise<FolderModel>;
 }
 
 export const FOLDER_REPOSITORY = 'FOLDER_REPOSITORY';
