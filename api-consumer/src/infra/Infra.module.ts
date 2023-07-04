@@ -3,6 +3,7 @@ import {
   EXTERNAL_USER_CONTACT_REPOSITORY,
   EXTERNAL_USER_REPOSITORY,
   INTERNAL_USER_REPOSITORY,
+  USER_REPORT_REPOSITORY,
 } from "@domain/repositories";
 import { HttpModule } from "@nestjs/axios";
 import { Module } from "@nestjs/common";
@@ -17,6 +18,7 @@ import { AuthenticationHeaderUtil } from "./api/repositories/utils/Authenticatio
 import { InternalUserEntity } from "./database/entities";
 import { TypeOrmInternalUserRepository } from "./database/repositories";
 import { HttpClientGetAdapter } from "./http/client/HttpClientGet.adapter";
+import { RmqUserReportRepository } from "./rmq/RmqUserReport.repository";
 
 @Module({
   imports: [
@@ -59,6 +61,10 @@ import { HttpClientGetAdapter } from "./http/client/HttpClientGet.adapter";
       provide: INTERNAL_USER_REPOSITORY,
       useClass: TypeOrmInternalUserRepository,
     },
+    {
+      provide: USER_REPORT_REPOSITORY,
+      useClass: RmqUserReportRepository,
+    },
     HttpClientGetAdapter,
     AuthenticationHeaderUtil,
   ],
@@ -67,6 +73,7 @@ import { HttpClientGetAdapter } from "./http/client/HttpClientGet.adapter";
     EXTERNAL_USER_ADDRESS_REPOSITORY,
     EXTERNAL_USER_CONTACT_REPOSITORY,
     INTERNAL_USER_REPOSITORY,
+    USER_REPORT_REPOSITORY,
   ],
 })
 export class InfraModule {}

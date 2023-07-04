@@ -14,6 +14,8 @@ import {
   IExternalUserRepository,
   IInternalUserRepository,
   INTERNAL_USER_REPOSITORY,
+  IUserReportRepository,
+  USER_REPORT_REPOSITORY,
 } from "../repositories";
 import { ISynchronizeUsersUseCase } from "../use-cases";
 
@@ -29,7 +31,9 @@ export class RemoteSynchronizeUsersService implements ISynchronizeUsersUseCase {
     @Inject(EXTERNAL_USER_CONTACT_REPOSITORY)
     private readonly externalUserContactRepository: IExternalUserContactRepository,
     @Inject(INTERNAL_USER_REPOSITORY)
-    private readonly internalUserRepository: IInternalUserRepository
+    private readonly internalUserRepository: IInternalUserRepository,
+    @Inject(USER_REPORT_REPOSITORY)
+    private readonly userReportRepository: IUserReportRepository
   ) {}
 
   async synchronize(): Promise<InternalUserModel[]> {
@@ -65,6 +69,9 @@ export class RemoteSynchronizeUsersService implements ISynchronizeUsersUseCase {
     });
 
     const internalUsers = await this.internalUserRepository.find();
+
+    await this.userReportRepository.save(internalUsers);
+
     return internalUsers;
   }
 }
