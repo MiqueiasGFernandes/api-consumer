@@ -1,0 +1,5 @@
+.env
+.gitignore
+.gitattributes
+.env.docker.example
+.nvmrc

@@ -1,13 +1,11 @@
 FROM node:18
 
-WORKDIR /usr/src/app
-
-COPY package*.json ./
-
-RUN npm install
+WORKDIR /usr/src/app/report_worker
 
 COPY . .
 
-EXPOSE 3000
+RUN npm install && npm run build && rm -rf src
 
-CMD [ "npm", "start" ]
+EXPOSE 3001
+
+CMD [ "node", "./dist/main.js" ]

@@ -1,15 +1,18 @@
 version: '3.1'
 services:
   api_synchronizer:
+    container_name: api_sync
     build: ./api-consumer/
     ports:
       - 3000:3000
     depends_on:
       - report_worker
+      - messagering
       - database
     networks:
       - app_network
   report_worker:
+    container_name: report_worker
     build: ./report-worker/
     ports:
       - 3001:3001
@@ -18,11 +21,14 @@ services:
     depends_on:
       - messagering
   database:
+    container_name: database
     image: mongo
     env_file:
     - ./.env.docker
     ports:
       - 27017:27017
+    networks:
+      - app_network
   database-admin-web:
     image: mongo-express
     volumes:
@@ -31,7 +37,10 @@ services:
       - 8081:8081
     env_file:
       - ./.env.docker
+    networks:
+      - app_network
   messagering:
+    container_name: rmq
     image: rabbitmq:3-management
     ports:
       - 8000:15672
