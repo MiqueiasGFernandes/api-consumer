@@ -1,6 +1,7 @@
 export class FileModel {
   id?: string;
-  content: Buffer;
+  name: string;
+  content?: Buffer;
   targetFolder: string;
   folderId?: string;
 }
